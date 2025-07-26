@@ -37,10 +37,10 @@ namespace Metaballs.Demo
                 return R * R / (r2 + R);
             }
 
-            public void Move(Canvas scene, double deltaTime)
+            public void Move(Canvas scene, double deltaMs)
             {
-                X += Dx * deltaTime / 75;
-                Y += Dy * deltaTime / 75;
+                X += Dx * deltaMs / 75;
+                Y += Dy * deltaMs / 75;
             }
         }
 
@@ -72,14 +72,15 @@ namespace Metaballs.Demo
                 if (!minDiameter.HasValue) return;
 
                 circlesToBounce.Clear();
-                var step = length / (2 * minDiameter.Value);
+                var stepLength = minDiameter.Value / 4; // 4 times more dense grid to check
+                var numSteps = length / stepLength;
 
-                for (int i = 0; i < 2 * minDiameter.Value; i++)
+                for (int i = 0; i < numSteps; i++)
                 {
-                    double x = axis == Axis.Vertical ? fixedCoord : i * step;
-                    double y = axis == Axis.Vertical ? i * step : fixedCoord;
+                    double x = axis == Axis.Vertical ? fixedCoord : i * stepLength;
+                    double y = axis == Axis.Vertical ? i * stepLength : fixedCoord;
 
-                    if (GeneralFunc(x, y) >= 0)
+                    if (GeneralFunc(x, y) >= -0.15) // also may compare with some bias/may add some bounds
                     {
                         var circleToBounce = circles.Where(velocityCondition)
                                                     .MinBy(c => Math.Abs(c.X - x) + Math.Abs(c.Y - y));
@@ -96,7 +97,8 @@ namespace Metaballs.Demo
         // I wished to make the app interactive
         // to have an ability to add/remove/change size of the circles.
         private static List<Circle> circles =
-          [ new Circle { X = 300, Y = 300, Dx = -1.5, Dy = 2, R = 80 },
+          [
+            new Circle { X = 300, Y = 300, Dx = -1.5, Dy = 2, R = 80 },
             new Circle { X = 400, Y = 300, Dx = 2.1, Dy = 2.9, R = 60 },
             new Circle { X = 200, Y = 200, Dx = 1.15, Dy = 3.1, R = 45 },
             new Circle { X = 600, Y = 120, Dx = -1.5, Dy = -5, R = 135 },
@@ -108,13 +110,13 @@ namespace Metaballs.Demo
             new Circle { X = 800, Y = 300, Dx = 2.65, Dy = -1.3, R = 65 } ];
 
         // That's why some unneccessay methods are introduced:
-        internal static double? GetMinDiameter() => circles.MinBy(c => c.R)?.R * 2;
+        internal static double? GetMinDiameter() => circles.MinBy(c => c.R)?.R * 2 + 1;
 
-        // Isoline value to draw a line:
-        private static double ISO = 2.5;
+        // THreshold value to draw a isoline:
+        private static double THRESHOLD = 2.5;
 
         public static double GeneralFunc(double x, double y)
-            => circles.Sum(circle => circle.ApproximatedFunc(x, y)) - ISO;
+            => circles.Sum(circle => circle.ApproximatedFunc(x, y)) - THRESHOLD;
 
         public static void MoveAll(Canvas scene, double deltaTime)
         {
