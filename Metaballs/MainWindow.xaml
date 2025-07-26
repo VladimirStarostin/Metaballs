@@ -1,0 +1,9 @@
+﻿<Window x:Class="Metaballs.Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Metaballs"
+        WindowState="Maximized"
+        MinHeight="200"
+        MinWidth="200" >
+    <Canvas x:Name="Scene" Background="Black" />
+</Window>
