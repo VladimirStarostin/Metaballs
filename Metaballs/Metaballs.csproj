@@ -11,6 +11,7 @@
 	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
 	<IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
 	<PublishTrimmed>false</PublishTrimmed>
+	<Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
 </Project>

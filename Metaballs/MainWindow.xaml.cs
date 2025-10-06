@@ -22,8 +22,7 @@ namespace Metaballs.Demo
 
             this.MouseDown += OnClick;
             _drawingVisual = new DrawingVisual();
-            _visualHost = new VisualHost(_drawingVisual);
-            Scene.Children.Add(_visualHost);
+            Scene.Children.Add(new VisualHost(_drawingVisual));
 
             this.SizeChanged += Metaball.OnSizeChanged;
             CompositionTarget.Rendering += OnRenderFrame;

@@ -110,10 +110,10 @@ namespace Metaballs.Demo
             new Circle { X = 800, Y = 300, Dx = 2.65, Dy = -1.3, R = 65 } ];
 
         // That's why some unneccessay methods are introduced:
-        internal static double? GetMinDiameter() => circles.MinBy(c => c.R)?.R * 2 + 1;
+        internal static double? GetMinDiameter() => circles.MinBy(c => c.R)?.R * 2;
 
         // THreshold value to draw a isoline:
-        private static double THRESHOLD = 2.5;
+        private static double THRESHOLD = 4;
 
         public static double GeneralFunc(double x, double y)
             => circles.Sum(circle => circle.ApproximatedFunc(x, y)) - THRESHOLD;
